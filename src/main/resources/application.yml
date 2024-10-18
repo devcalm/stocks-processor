@@ -1,0 +1,45 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: stocks-processor
+  config:
+    import: optional:file:.env[.properties]
+  cloud:
+    gcp:
+      project-id: ${gcp.project-id}
+      credentials:
+        location: file:${gcp.credential}
+        scopes: "https://www.googleapis.com/auth/pubsub"
+      pubsub:
+        enabled: true
+  batch:
+    job:
+      enabled: false
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?ssl=false&autoReconnect=true&useUnicode=true&characterEncoding=utf-8&allowPublicKeyRetrieval=true
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    open-in-view: false
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc.core.JdbcTemplate: TRACE
+
+storage:
+  local: storage
+
+gcp:
+  credential: ${GCP_CREDENTIAL_FILE_PATH}
+  project-id: ${GCP_PROJECT_ID}
+  subscription: ${GCP_SUBSCRIPTION_NAME}
+  bucket: ${GCP_BUCKET}
