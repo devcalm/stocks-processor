@@ -67,3 +67,7 @@ dependencyManagement {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+bootJar {
+	mainClass.set('org.devcalm.stocks.App')
+}

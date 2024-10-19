@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stocks-processor-api
+  namespace: stocks-processor
+  labels:
+    name: stocks-processor-api
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 50%
+  selector:
+    matchLabels:
+      name: stocks-processor-api
+  template:
+    metadata:
+      labels:
+        name: stocks-processor-api
+    spec:
+      containers:
+        - name: stocks-processor-api
+          image: devcalm/stocks-processor:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: GCP_CREDENTIAL_FILE_PATH
+              value: /app/secrets/firebase.json
+          envFrom:
+            - secretRef:
+                name: db-secret
+            - configMapRef:
+                name: config-map
+          volumeMounts:
+            - name: credentials-volume
+              mountPath: /app/secrets
+              readOnly: true
+          imagePullPolicy: Always
+      volumes:
+        - name: credentials-volume
+          secret:
+            secretName: firebase-secret
+            items:
+              - key: GCP_CREDENTIAL_FILE_PATH
+                path: firebase.json
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: stocks-processor-api
+  namespace: stocks-processor
+spec:
+  selector:
+    name: stocks-processor-api
+  type: NodePort
+  ports:
+    - protocol: TCP
+      name: "http"
+      port: 8080
+      targetPort: 8080
+      nodePort: 30079
+
