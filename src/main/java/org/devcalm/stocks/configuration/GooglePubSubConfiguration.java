@@ -8,11 +8,13 @@ import org.devcalm.stocks.configuration.properties.GoogleCloudProviderProperties
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.integration.channel.DirectChannel;
 import org.springframework.messaging.MessageChannel;
 
 @Slf4j
 @Configuration
+@Profile("!test")
 public class GooglePubSubConfiguration {
 
     @Bean
