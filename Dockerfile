@@ -15,7 +15,7 @@ FROM openjdk:21-jdk-slim AS runtime
 
 WORKDIR /app
 
-COPY --from=build /app/build/libs/*.jar /app/app.jar
+COPY --from=build /app/build/libs/stocks-processor.jar /app/app.jar
 
 EXPOSE 8080
 

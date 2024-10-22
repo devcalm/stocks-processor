@@ -70,4 +70,5 @@ tasks.named('test') {
 
 bootJar {
 	mainClass.set('org.devcalm.stocks.App')
+	archiveFileName.set('stocks-processor.jar')
 }
