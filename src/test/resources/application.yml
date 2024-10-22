@@ -1,0 +1,27 @@
+spring:
+  flyway:
+    enabled: true
+  datasource:
+    url: jdbc:tc:postgresql:16-alpine:///
+    username: test
+    password: test
+  cloud:
+    gcp:
+      firestore:
+        enabled: false
+      pubsub:
+        enabled: false
+  batch:
+    job:
+      enabled: false
+  jpa:
+    open-in-view: false
+
+storage:
+  local: storage
+
+gcp:
+  credential: test-credential
+  project-id: test-project-id
+  subscription: test-subscription-id
+  bucket: test-bucket
