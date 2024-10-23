@@ -4,7 +4,6 @@ import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import org.devcalm.stocks.exception.StockException;
 import org.instancio.Instancio;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -26,16 +25,10 @@ class DeleteFileServiceTest {
     private Bucket bucket;
     @InjectMocks
     private DeleteFileService deleteFileService;
-    private AutoCloseable closeable;
 
     @BeforeEach
-    public void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
-    }
-
-    @AfterEach
-    public void tearDown() throws Exception {
-        closeable.close();
+    void setUp() throws Exception {
+        MockitoAnnotations.openMocks(this).close();
     }
 
     @Test
@@ -68,7 +61,7 @@ class DeleteFileServiceTest {
         then(blob).should().delete();
     }
 
-    private static String generateFileName() {
+    private String generateFileName() {
         return Instancio.of(String.class).create();
     }
 }
