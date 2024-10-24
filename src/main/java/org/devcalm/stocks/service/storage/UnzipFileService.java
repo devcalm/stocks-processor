@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -41,7 +40,7 @@ public class UnzipFileService {
     }
 
     private void extractFile(ZipInputStream inputStream, String filePath) throws IOException {
-        try (var bos = new BufferedOutputStream(new FileOutputStream(filePath))) {
+        try (var bos = new BufferedOutputStream(Files.newOutputStream(Path.of(filePath)))) {
             byte[] bytesIn = new byte[BUFFER_SIZE];
             int read;
             while ((read = inputStream.read(bytesIn)) != -1) {
