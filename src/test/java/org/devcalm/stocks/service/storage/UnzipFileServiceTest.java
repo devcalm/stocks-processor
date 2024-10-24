@@ -27,7 +27,7 @@ class UnzipFileServiceTest {
 
     @Test
     void shouldThrowExceptionWhenZipIsNull() {
-        String notZipFile = getFilePathFromResource("/application.yml");
+        var notZipFile = getFilePathFromResource("/application.yml");
 
         assertThatThrownBy(() -> service.unzipFile(notZipFile, ""))
                 .isInstanceOf(NullPointerException.class)
@@ -36,11 +36,33 @@ class UnzipFileServiceTest {
 
     @Test
     void shouldThrowExceptionWhenZipContainsDirectory() {
-        String zipWithDirectory = getFilePathFromResource("/static/compressed_directory.zip");
+        var zipWithDirectory = getFilePathFromResource("/static/compressed-directory.zip");
 
         assertThatThrownBy(() -> service.unzipFile(zipWithDirectory, ""))
                 .isInstanceOf(StockException.class)
                 .hasMessageContaining("Directory is not allowed");
+    }
+
+    @Test
+    void shouldThrowExceptionWhenZipContainsMultipleFiles() throws IOException {
+        var zippedFile = getFilePathFromResource("/static/multiple-files.zip");
+        var fileName = "test.txt";
+        var filePath = Path.of(properties.getLocal(), fileName);
+
+        assertThatThrownBy(() -> service.unzipFile(zippedFile, filePath.toString()))
+                .isInstanceOf(StockException.class)
+                .hasMessageContaining("Compressed file contains more than one file");
+
+        assertThat(Files.exists(filePath)).isTrue();
+        Files.delete(filePath);
+        assertThat(Files.exists(filePath)).isFalse();
+    }
+
+    @Test
+    void shouldThrowExceptionWhenFileIsNotFound() {
+        assertThatThrownBy(() -> service.unzipFile("", ""))
+                .isInstanceOf(StockException.class)
+                .hasMessageContaining("No such file or directory");
     }
 
     @Test
