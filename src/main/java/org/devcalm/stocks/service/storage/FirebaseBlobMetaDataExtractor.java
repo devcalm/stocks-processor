@@ -21,7 +21,7 @@ import static org.devcalm.stocks.ConstanceHolder.*;
 @RequiredArgsConstructor
 public class FirebaseBlobMetaDataExtractor {
     /** Should match AAPL_2015-08-01_2024-08-31.zip **/
-    private static final Pattern regex = Pattern.compile("^(?<name>[A-Za-z0-9\\.]+)_(?<start>\\d{4}-\\d{2}-\\d{2})_(?<end>\\d{4}-\\d{2}-\\d{2})\\.zip");
+    private static final Pattern regex = Pattern.compile("^(?<name>[A-Za-z0-9.]+)_(?<start>\\d{4}-\\d{2}-\\d{2})_(?<end>\\d{4}-\\d{2}-\\d{2})\\.zip");
     private final Bucket bucket;
 
     public StockMetadata extract(final String filename) {
@@ -51,7 +51,8 @@ public class FirebaseBlobMetaDataExtractor {
                         getDefaultValue(matcher, "end", "Stock end date is not set")),
                 DateTimeFormatter.ISO_DATE);
 
-        var uncompressedFile = metadata.getOrDefault(BATCH_REMOTE_FILE_NAME, "stock.csv");
+
+        var uncompressedFile = metadata.getOrDefault(BATCH_REMOTE_FILE_NAME, compressedFile.replaceFirst("zip$", "csv"));
 
         return new StockMetadata(stockName, uncompressedFile, compressedFile, startDate, endDate);
     }
