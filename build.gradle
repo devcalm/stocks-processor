@@ -77,6 +77,16 @@ jacoco {
 
 jacocoTestReport {
 	dependsOn test
+
+	afterEvaluate {
+		classDirectories.setFrom(files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: [
+					"**/configuration/DatabaseConfiguration.class",
+					"**/configuration/FirebaseStorageConfiguration.class",
+					"**/configuration/GooglePubSubConfiguration.class"
+			])
+		}))
+	}
 }
 
 bootJar {
