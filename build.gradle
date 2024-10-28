@@ -83,7 +83,8 @@ jacocoTestReport {
 			fileTree(dir: it, exclude: [
 					"**/configuration/DatabaseConfiguration.class",
 					"**/configuration/FirebaseStorageConfiguration.class",
-					"**/configuration/GooglePubSubConfiguration.class"
+					"**/configuration/GooglePubSubConfiguration.class",
+					"**/App.class"
 			])
 		}))
 	}
