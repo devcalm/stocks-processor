@@ -116,9 +116,6 @@ public class StockJobConfiguration {
     }
 
     private Chunk<? extends Stock> filterUniqueStocks(Chunk<? extends Stock> items, NamedParameterJdbcTemplate namedJdbcTemplate) {
-        if (items.isEmpty()) {
-            return Chunk.of();
-        }
         var name = items.getItems().stream().findFirst().map(Stock::name).orElseThrow();
         var dates = items.getItems().stream().map(Stock::date).toList();
         var parameters = new MapSqlParameterSource(Map.of("name", name, "dates", dates));

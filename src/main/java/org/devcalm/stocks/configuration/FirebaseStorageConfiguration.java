@@ -10,12 +10,10 @@ import org.devcalm.stocks.exception.StockException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.annotation.Profile;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 
-@Profile("!test")
 @Configuration
 public class FirebaseStorageConfiguration {
 
