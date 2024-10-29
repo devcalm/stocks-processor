@@ -1,4 +1,7 @@
 spring:
+  autoconfigure:
+    exclude:
+      - com.google.cloud.spring.autoconfigure.core.GcpContextAutoConfiguration
   flyway:
     enabled: true
   datasource:
